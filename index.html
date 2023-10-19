@@ -1,0 +1,233 @@
+<!doctype html>
+<html><head><title>
+Weather</title>
+<link rel="icon" href="https://drive.google.com/uc?export=view&id=1Vzz2GJAPm1QzUH0r12rOndXAZBTEROPt">
+<style>
+ *{
+	margin:0;
+	padding:0;
+	font-family:'poppins',sans-serif;
+	box-sizing:border-box;
+ }
+ body{
+	background:#222;
+	//overflow:hidden;
+	
+ }
+
+ .card{
+	width:90%;
+	max-width:400px;
+	//max-height:500px;
+	background:linear-gradient(290deg,skyblue,black,grey,black,pink);
+	background-repeat:no-repeat;
+	
+	color: #fff;
+	margin:100px auto 0;
+	border-radius:20px;
+	padding:40px 15px;
+	text-align:center;
+	//display:flex;
+	//align-items:center;
+	
+ }
+ @media all and(max-width:1400px)
+  .card{
+	width:90%;
+	max-width:400px;
+	//max-height:500px;
+	background:linear-gradient(290deg,skyblue,black,grey,black,pink);
+	background-repeat:no-repeat;
+	
+	color: #fff;
+	margin:100px auto 0;
+	border-radius:20px;
+	padding:40px 15px;
+	text-align:center;
+	//display:flex;
+	//align-items:center;
+	
+ }
+ @media screen and(min-width:150px)and(max-width:500px)
+ .search {
+	 width:100%;
+	 display:flex;
+	 align-items:center;
+	justify-content: justify;
+	
+ }
+ .search input{
+	 border:0;
+	 outline:0;
+	 background:#ebfffc;
+	 color:#555;
+	 padding:10px 25px;
+	 height:60px;
+	 border-radius:30px;
+	 flex:1;
+	 margin-right:16px;
+	 font-size:18px;
+	 //position:absolute;
+	 //top:140px;
+	 //left:90px;
+
+ }
+ 
+ 
+.search button{
+     //padding:10px 25px;
+	
+	 border:0;
+	 outline:0;
+	 background:#ebfffc;
+	 border-radius:50%;
+	 width:60px;
+	 height:60px;
+	 cursor:pointer;
+	 //position:absolute;
+	 //top:140px;
+	 //left:370px;
+ }
+ 
+ .search button img{
+	 width:20px;
+ }
+ .weather-icon{
+	
+	 width:170px;
+	 margin-top:80px;
+ }
+ .weather h1{
+	 font-size:80px;
+	 font-weight:500;
+	 
+ }
+ .weather h2{
+	 font-size:45px;
+	 font-weight:400;
+	 margin-top:-10px;
+	 
+ }
+ .detials{
+	 display:flex;
+	 align-items:center;
+	 justify-content:space-between;
+	 padding:0 20px;
+	 margin-top: 50px;
+ }
+ .col{
+	 display:flex;
+	 align-items:center;
+	 text-align:left;
+ }
+ .col img{
+	 width:40px;
+	 margin-right:10px;
+	// display:inline-block;
+ }
+ .humidity,.wind{
+	 font-size:28px;
+	 margin-top:-6px;
+	 
+ }
+</style>
+
+</head>
+<body>
+<div class="card"> 
+<div class="search"> 
+       <input type="text" placeholder="enter the city name" spellcheck="false">
+<button>
+<img src="https://drive.google.com/uc?export=view&id=1JGSC4JbCjz8Bw0q7PHcjocCUMjI_g60F"></button>
+</div>
+<div class="weather">
+<img src="https://drive.google.com/uc?export=view&id=1CnUk5BeqINDcjAJVxg9_keNKn4rWiOKj"
+ class="weather-icon">
+<h1 class="temp">23°c </h1>
+<h2 class="city">paris</h2>
+<h5 id="current-time"></h5>
+<div class="detials">
+
+<div class="col">
+<img src="https://drive.google.com/uc?export=view&id=19x49fzVX1KGYtRZ42nHaI-YoONAsD-WE" class="pic1">
+<div>
+<p class="humidity">50%</p>
+<p>humidity</p>
+
+
+</div>
+</div>
+
+<div class="col">
+<img src="https://drive.google.com/uc?export=view&id=1pcuJQ_UXlguIEa_tLcU_erMblffVhfLn" 
+height="70px" width="70px" class="pic">
+<div>
+<p class="wind">23km/h</p>
+<p>wind speed</p>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const apiKey = "de40a9235ac3d010f877196bcb941ff4";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
+
+// Wrap your code in an event listener for DOMContentLoaded
+document.addEventListener("DOMContentLoaded", async () => {
+
+  async function checkWeather(city) {
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    var data = await response.json();
+
+    console.log(data);
+
+    document.querySelector(".city").innerHTML = data.name;
+    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+    document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+	
+	
+	if(data.weather[0].main == "Clouds"){
+        	weatherIcon.src="https://drive.google.com/uc?export=view&id=1CnUk5BeqINDcjAJVxg9_keNKn4rWiOKj"; 
+	 }
+    else if(data.weather[0].main == "Clear"){
+	        weatherIcon.src="https://drive.google.com/uc?export=view&id=1bfkeIibtLsA_6Fdn53rFcYE5qxXmjAsO"; 
+	}
+	else if(data.weather[0].main == "Rain"){
+	        weatherIcon.src="https://drive.google.com/uc?export=view&id=1_6uukzvoXq6AjqiEbXSJ1FfbLyshAOOK"; 
+	}
+	else if(data.weather[0].main == "Drizzle"){
+	        weatherIcon.src="https://drive.google.com/uc?export=view&id=1v9L8kbFY17XGtGP_wuRJGgulBcMS_mXM"; 
+	}
+	else if(data.weather[0].main == "Mist"){
+	        weatherIcon.src="https://drive.google.com/uc?export=view&id=1vO6NdGwfaSwlsjCxdRGvma5PibMKTi8a"; 
+	}
+	
+	
+	
+  }
+
+  // Check if the search button exists
+  if (searchBtn) {
+    // Add an event listener to the search button
+    searchBtn.addEventListener("click", () => {
+      checkWeather(searchBox.value);
+    });
+  }
+});
+
+let time = document.getElementById("current-time");
+
+setInterval(() =>{
+   let d = new Date();
+   time.innerHTML = d.toLocaleTimeString();
+},1000)
+
+</script>
+</body></html>
